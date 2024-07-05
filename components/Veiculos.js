@@ -14,7 +14,7 @@ export default function Veiculos() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#D93600',
+    backgroundColor: '#091015',
     alignItems: 'center',
     justifyContent: 'center',
   },
