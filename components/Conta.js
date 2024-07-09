@@ -6,7 +6,7 @@ import { FontAwesome } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width: windowWidth } = Dimensions.get('window');
-const nome = "João"; // Defina o nome aqui
+const nome = "Gabiru"; // Defina o nome aqui
 
 export default function Conta() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -85,13 +85,31 @@ export default function Conta() {
           <Image source={{ uri: selectedImage }} style={styles.photo} />
         ) : (
           <View style={styles.photoPlaceholder}>
-            <FontAwesome name="camera" size={40} color="#fff" />
+            <FontAwesome name="camera" size={40} color="#faffd6" />
           </View>
         )}
       </TouchableOpacity>
       <Text style={styles.greetingText}>
         {greeting.split(', ')[0]}, <Text style={styles.boldText}>{nome}.</Text>
       </Text>
+      <View style={styles.optionsContainer}>
+        <TouchableOpacity style={styles.option} onPress={() => alert('Conta')}>
+          <FontAwesome name="user" size={24} color="#faffd6" />
+          <Text style={styles.optionText}>Conta</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.option} onPress={() => alert('Métodos de Pagamento')}>
+          <FontAwesome name="credit-card" size={24} color="#faffd6" />
+          <Text style={styles.optionText}>Métodos de Pagamento</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.option} onPress={() => alert('Configurações')}>
+          <FontAwesome name="cog" size={24} color="#faffd6" />
+          <Text style={styles.optionText}>Configurações</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.option} onPress={() => alert('Ajuda e Feedback')}>
+          <FontAwesome name="question-circle" size={24} color="#faffd6" />
+          <Text style={styles.optionText}>Ajuda e Feedback</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 }
@@ -102,6 +120,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#091015',
     alignItems: 'center',
     paddingTop: 50, // Adiciona um espaçamento no topo
+    justifyContent: 'space-between',
   },
   photoContainer: {
     width: windowWidth * 0.6,
@@ -127,12 +146,30 @@ const styles = StyleSheet.create({
   },
   greetingText: {
     color: '#faffd6',
-    marginTop: 20,
+    marginTop: -10,
     textAlign: 'center',
     fontSize: 24,
   },
   boldText: {
     fontWeight: 'bold',
     color: '#faffd6',
+  },
+  optionsContainer: {
+    width: '100%',
+  },
+  option: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 20,
+    backgroundColor: '#091015',
+    borderTopWidth: 1,
+    borderTopColor: '#4682B4',
+    width: '100%',
+    paddingHorizontal: 20,
+  },
+  optionText: {
+    color: '#faffd6',
+    marginLeft: 10,
+    fontSize: 18,
   },
 });
