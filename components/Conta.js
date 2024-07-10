@@ -1,24 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Image, View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useIsFocused } from '@react-navigation/native';
+import { UserContext } from '../contexts/UserContext';
+import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
-import { FontAwesome } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const { width: windowWidth } = Dimensions.get('window');
-const nome = "Gabiru"; // Defina o nome aqui
 
 export default function Conta({ navigation }) {
+  const { user, setUser } = useContext(UserContext);
   const [selectedImage, setSelectedImage] = useState(null);
   const [localUri, setLocalUri] = useState(null);
   const [greeting, setGreeting] = useState('');
+  const isFocused = useIsFocused();
 
   useEffect(() => {
+    loadUserInfo();
     loadImageFromStorage();
-    setGreeting(getGreeting());
-  }, []);
+  }, [isFocused]);
 
-  const getGreeting = () => {
+  const loadUserInfo = async () => {
+    try {
+      const userInfo = await AsyncStorage.getItem('userInfo');
+      if (userInfo) {
+        const parsedInfo = JSON.parse(userInfo);
+        console.log('Nome do usuário carregado:', parsedInfo.nome);
+        setUser(parsedInfo);
+        setGreeting(getGreeting(parsedInfo.nome));
+      }
+    } catch (error) {
+      console.log('Erro ao carregar informações do usuário:', error);
+    }
+  };
+
+  const getGreeting = (nome) => {
     const currentHour = new Date().getHours();
     if (currentHour < 12) {
       return `Bom dia, ${nome}`;
@@ -55,7 +72,7 @@ export default function Conta({ navigation }) {
       quality: 1,
     });
 
-    if (!result.canceled) {
+    if (!result.cancelled) {
       setSelectedImage(result.assets[0].uri);
       saveImageLocally(result.assets[0].uri);
     }
@@ -90,7 +107,7 @@ export default function Conta({ navigation }) {
         )}
       </TouchableOpacity>
       <Text style={styles.greetingText}>
-        {greeting.split(', ')[0]}, <Text style={styles.boldText}>{nome}.</Text>
+        {greeting ? `${greeting.split(', ')[0]}, ` : ''}<Text style={styles.boldText}>{user.nome}.</Text>
       </Text>
       <View style={styles.optionsContainer}>
         <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Perfil')}>

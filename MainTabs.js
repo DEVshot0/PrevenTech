@@ -1,10 +1,12 @@
 import * as React from 'react';
+import { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { TouchableOpacity, StyleSheet, View, TextInput, SafeAreaView } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Veiculos from './components/Veiculos';
 import Home from './components/Home';
 import Conta from './components/Conta';
+import { UserContext } from './contexts/UserContext';  // Correct import path
 
 const Tab = createBottomTabNavigator();
 
@@ -33,7 +35,9 @@ const SearchBar = () => {
   );
 };
 
-function MainTabs() {
+function MainTabs({ route }) {
+  const { user } = useContext(UserContext);
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
@@ -70,8 +74,8 @@ function MainTabs() {
           })}
         >
           <Tab.Screen name="Veiculos" component={Veiculos} />
-          <Tab.Screen name="Home" component={Home} />
-          <Tab.Screen name="Conta" component={Conta} />
+          <Tab.Screen name="Home" component={Home} initialParams={{ nome: user.nome }} />
+          <Tab.Screen name="Conta" component={Conta} initialParams={{ nome: user.nome }} />
         </Tab.Navigator>
       </View>
     </SafeAreaView>
