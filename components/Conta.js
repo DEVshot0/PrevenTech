@@ -8,7 +8,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const { width: windowWidth } = Dimensions.get('window');
 const nome = "Gabiru"; // Defina o nome aqui
 
-export default function Conta() {
+export default function Conta({ navigation }) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [localUri, setLocalUri] = useState(null);
   const [greeting, setGreeting] = useState('');
@@ -93,19 +93,19 @@ export default function Conta() {
         {greeting.split(', ')[0]}, <Text style={styles.boldText}>{nome}.</Text>
       </Text>
       <View style={styles.optionsContainer}>
-        <TouchableOpacity style={styles.option} onPress={() => alert('Conta')}>
+        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Perfil')}>
           <FontAwesome name="user" size={24} color="#faffd6" />
-          <Text style={styles.optionText}>Conta</Text>
+          <Text style={styles.optionText}>Perfil</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.option} onPress={() => alert('Métodos de Pagamento')}>
+        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Metodos')}>
           <FontAwesome name="credit-card" size={24} color="#faffd6" />
           <Text style={styles.optionText}>Métodos de Pagamento</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.option} onPress={() => alert('Configurações')}>
+        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Config')}>
           <FontAwesome name="cog" size={24} color="#faffd6" />
           <Text style={styles.optionText}>Configurações</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.option} onPress={() => alert('Ajuda e Feedback')}>
+        <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Ajuda')}>
           <FontAwesome name="question-circle" size={24} color="#faffd6" />
           <Text style={styles.optionText}>Ajuda e Feedback</Text>
         </TouchableOpacity>
@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#091015',
     alignItems: 'center',
-    paddingTop: 50, // Adiciona um espaçamento no topo
+    paddingTop: 50,
     justifyContent: 'space-between',
   },
   photoContainer: {

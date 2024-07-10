@@ -4,6 +4,11 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Provider as PaperProvider } from 'react-native-paper';
 import Login from './components/Login';
 import MainTabs from './MainTabs';
+import Conta from './components/Conta';
+import Perfil from './components/Perfil';
+import Metodos from './components/Metodos';
+import Config from './components/Config';
+import Ajuda from './components/Ajuda';
 
 const Stack = createStackNavigator();
 
@@ -14,6 +19,11 @@ function App() {
         <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Login" component={Login} />
           <Stack.Screen name="Main" component={MainTabs} />
+          <Stack.Screen name="Conta" component={Conta} />
+          <Stack.Screen name="Perfil" component={Perfil} />
+          <Stack.Screen name="Metodos" component={Metodos} />
+          <Stack.Screen name="Config" component={Config} />
+          <Stack.Screen name="Ajuda" component={Ajuda} />
         </Stack.Navigator>
       </NavigationContainer>
     </PaperProvider>
