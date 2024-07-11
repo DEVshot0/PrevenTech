@@ -1,11 +1,26 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, ScrollView, StatusBar } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInputMask } from 'react-native-masked-text';
 import { UserContext } from '../contexts/UserContext';  // Corrigir o caminho de importação
+import { useTheme } from '../contexts/ThemeContext'; // Import useTheme
 
 const { width: windowWidth } = Dimensions.get('window');
+
+const darkColors = {
+  backgroundColor: '#091015',
+  primaryColor: '#4682B4',
+  textColor: '#faffd6',
+  inputBackground: '#1e2a35',
+};
+
+const lightColors = {
+  backgroundColor: '#fdfff2',
+  primaryColor: '#4682B4',
+  textColor: '#091015',
+  inputBackground: '#c2c2c2',
+};
 
 export default function Perfil({ navigation }) {
   const { user, setUser } = useContext(UserContext);  // Usar corretamente o contexto
@@ -18,6 +33,9 @@ export default function Perfil({ navigation }) {
   const [rua, setRua] = useState(user.rua);
   const [bairro, setBairro] = useState(user.bairro);
   const [numeroResidencia, setNumeroResidencia] = useState(user.numeroResidencia);
+
+  const { isDarkMode } = useTheme();
+  const colors = isDarkMode ? darkColors : lightColors;
 
   useEffect(() => {
     loadInformation();
@@ -84,35 +102,40 @@ export default function Perfil({ navigation }) {
       console.log('Erro ao salvar as informações:', error);
     }
   };
-  
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <Text style={styles.title}>Perfil</Text>
-      <TouchableOpacity style={styles.saveButton} onPress={saveInformation}>
-        <FontAwesome name="save" size={24} color="#faffd6" />
-        <Text style={styles.saveButtonText}>Salvar Informações</Text>
+    <ScrollView contentContainerStyle={[styles.container, { backgroundColor: colors.backgroundColor }]}>
+      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={isDarkMode ? '#000' : colors.backgroundColor} />
+      <View style={styles.header}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <FontAwesome name="arrow-left" size={24} color={colors.textColor} />
+        </TouchableOpacity>
+        <Text style={[styles.title, { color: colors.textColor }]}>Perfil</Text>
+      </View>
+      <TouchableOpacity style={[styles.saveButton, { backgroundColor: colors.primaryColor }]} onPress={saveInformation}>
+        <FontAwesome name="save" size={24} color={colors.textColor} />
+        <Text style={[styles.saveButtonText, { color: colors.textColor }]}>Salvar Informações</Text>
       </TouchableOpacity>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Nome</Text>
+        <Text style={[styles.label, { color: colors.textColor }]}>Nome</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
           value={nome}
           onChangeText={setNome}
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Sobrenome</Text>
+        <Text style={[styles.label, { color: colors.textColor }]}>Sobrenome</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
           value={sobrenome}
           onChangeText={setSobrenome}
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Número</Text>
+        <Text style={[styles.label, { color: colors.textColor }]}>Número</Text>
         <View style={styles.numberInputContainer}>
-          <Text style={styles.flag}>🇧🇷 +55</Text>
+          <Text style={[styles.flag, { color: colors.textColor }]}>🇧🇷 +55</Text>
           <TextInputMask
             type={'cel-phone'}
             options={{
@@ -120,71 +143,73 @@ export default function Perfil({ navigation }) {
               withDDD: true,
               dddMask: '(99) '
             }}
-            style={styles.input}
+            style={[styles.input, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
             value={numero}
             onChangeText={setNumero}
             placeholder='(xx) _____-____'
+            placeholderTextColor={colors.placeholderTextColor}
           />
         </View>
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>CEP</Text>
+        <Text style={[styles.label, { color: colors.textColor }]}>CEP</Text>
         <View style={styles.cepContainer}>
           <TextInput
-            style={[styles.input, styles.cepInput]}
+            style={[styles.input, styles.cepInput, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
             value={cep}
             onChangeText={handleCepChange}
             keyboardType='numeric'
+            placeholderTextColor={colors.placeholderTextColor}
           />
-          <TouchableOpacity style={styles.cepButton} onPress={fetchAddress}>
-            <Text style={styles.cepButtonText}>Buscar CEP</Text>
+          <TouchableOpacity style={[styles.cepButton, { backgroundColor: colors.primaryColor }]} onPress={fetchAddress}>
+            <Text style={[styles.cepButtonText, { color: colors.textColor }]}>Buscar CEP</Text>
           </TouchableOpacity>
         </View>
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Cidade</Text>
+        <Text style={[styles.label, { color: colors.textColor }]}>Cidade</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
           value={cidade}
           onChangeText={setCidade}
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Estado</Text>
+        <Text style={[styles.label, { color: colors.textColor }]}>Estado</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
           value={estado}
           onChangeText={setEstado}
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Rua</Text>
+        <Text style={[styles.label, { color: colors.textColor }]}>Rua</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
           value={rua}
           onChangeText={setRua}
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Bairro</Text>
+        <Text style={[styles.label, { color: colors.textColor }]}>Bairro</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
           value={bairro}
           onChangeText={setBairro}
         />
       </View>
       <View style={styles.inputContainer}>
-        <Text style={styles.label}>Número</Text>
+        <Text style={[styles.label, { color: colors.textColor }]}>Número</Text>
         <TextInput
-          style={styles.input}
+          style={[styles.input, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
           value={numeroResidencia}
           onChangeText={setNumeroResidencia}
           keyboardType='numeric'
         />
       </View>
-      <TouchableOpacity style={styles.changePasswordButton} onPress={() => alert('Alterar senha')}>
-        <FontAwesome name="key" size={24} color="#faffd6" />
-        <Text style={styles.changePasswordText}>Alterar sua senha</Text>
+      <TouchableOpacity style={[styles.changePasswordButton, { backgroundColor: colors.primaryColor }]} onPress={() => alert('Alterar senha')}>
+        <FontAwesome name="key" size={24} color={colors.textColor} />
+        <Text style={[styles.changePasswordText, { color: colors.textColor }]}>Alterar sua senha</Text>
       </TouchableOpacity>
     </ScrollView>
   );
@@ -193,29 +218,31 @@ export default function Perfil({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
-    backgroundColor: '#091015',
     alignItems: 'center',
     paddingTop: 50,
     paddingBottom: 20,
   },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: '100%',
+    paddingHorizontal: 20,
+    marginBottom: 20,
+  },
   title: {
-    color: '#faffd6',
     fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 20,
+    marginLeft: 10,
   },
   inputContainer: {
     width: windowWidth * 0.9,
     marginBottom: 20,
   },
   label: {
-    color: '#faffd6',
     fontSize: 16,
     marginBottom: 5,
   },
   input: {
-    backgroundColor: '#1e2a35',
-    color: '#faffd6',
     padding: 10,
     borderRadius: 5,
     fontSize: 16,
@@ -226,7 +253,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   flag: {
-    color: '#faffd6',
     marginRight: 10,
     fontSize: 16,
   },
@@ -239,7 +265,6 @@ const styles = StyleSheet.create({
   },
   cepButton: {
     flex: 0.5,
-    backgroundColor: '#4682B4',
     padding: 10,
     borderRadius: 5,
     marginLeft: 10,
@@ -247,7 +272,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   cepButtonText: {
-    color: '#faffd6',
     fontSize: 16,
   },
   saveButton: {
@@ -255,13 +279,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: '#4682B4',
     borderRadius: 5,
     marginTop: 10,
     marginBottom: 20,
   },
   saveButtonText: {
-    color: '#faffd6',
     marginLeft: 10,
     fontSize: 18,
   },
@@ -270,14 +292,11 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: 15,
     paddingHorizontal: 20,
-    backgroundColor: '#4682B4',
     borderRadius: 5,
     marginTop: 30,
   },
   changePasswordText: {
-    color: '#faffd6',
     marginLeft: 10,
     fontSize: 18,
   },
 });
-

@@ -1,13 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, View, Text, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
+import { Image, View, Text, StyleSheet, TouchableOpacity, Dimensions, StatusBar } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useIsFocused } from '@react-navigation/native';
 import { UserContext } from '../contexts/UserContext';
 import { FontAwesome } from '@expo/vector-icons';
 import * as ImagePicker from 'expo-image-picker';
 import * as FileSystem from 'expo-file-system';
+import { useTheme } from '../contexts/ThemeContext';
 
 const { width: windowWidth } = Dimensions.get('window');
+
+const darkColors = {
+  backgroundColor: '#091015',
+  borderColor: '#4682B4',
+  inactiveTintColor: '#faffd6',
+  photoPlaceholderColor: '#ccc',
+};
+
+const lightColors = {
+  backgroundColor: '#fdfff2',
+  borderColor: '#4682B4',
+  inactiveTintColor: '#091015',
+  photoPlaceholderColor: '#ccc',
+};
 
 export default function Conta({ navigation }) {
   const { user, setUser } = useContext(UserContext);
@@ -15,10 +30,14 @@ export default function Conta({ navigation }) {
   const [localUri, setLocalUri] = useState(null);
   const [greeting, setGreeting] = useState('');
   const isFocused = useIsFocused();
+  const { isDarkMode } = useTheme();
+  const colors = isDarkMode ? darkColors : lightColors;
 
   useEffect(() => {
-    loadUserInfo();
-    loadImageFromStorage();
+    if (isFocused) {
+      loadUserInfo();
+      loadImageFromStorage();
+    }
   }, [isFocused]);
 
   const loadUserInfo = async () => {
@@ -26,7 +45,6 @@ export default function Conta({ navigation }) {
       const userInfo = await AsyncStorage.getItem('userInfo');
       if (userInfo) {
         const parsedInfo = JSON.parse(userInfo);
-        console.log('Nome do usuário carregado:', parsedInfo.nome);
         setUser(parsedInfo);
         setGreeting(getGreeting(parsedInfo.nome));
       }
@@ -96,35 +114,35 @@ export default function Conta({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
-      <TouchableOpacity style={styles.photoContainer} onPress={pickImage}>
+    <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
+      <TouchableOpacity style={[styles.photoContainer, { borderColor: colors.borderColor }]} onPress={pickImage}>
         {selectedImage ? (
           <Image source={{ uri: selectedImage }} style={styles.photo} />
         ) : (
-          <View style={styles.photoPlaceholder}>
-            <FontAwesome name="camera" size={40} color="#faffd6" />
+          <View style={[styles.photoPlaceholder, { backgroundColor: colors.photoPlaceholderColor }]}>
+            <FontAwesome name="camera" size={40} color={colors.inactiveTintColor} />
           </View>
         )}
       </TouchableOpacity>
-      <Text style={styles.greetingText}>
+      <Text style={[styles.greetingText, { color: colors.inactiveTintColor }]}>
         {greeting ? `${greeting.split(', ')[0]}, ` : ''}<Text style={styles.boldText}>{user.nome}.</Text>
       </Text>
       <View style={styles.optionsContainer}>
         <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Perfil')}>
-          <FontAwesome name="user" size={24} color="#faffd6" />
-          <Text style={styles.optionText}>Perfil</Text>
+          <FontAwesome name="user" size={24} color={colors.inactiveTintColor} />
+          <Text style={[styles.optionText, { color: colors.inactiveTintColor }]}>Perfil</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Metodos')}>
-          <FontAwesome name="credit-card" size={24} color="#faffd6" />
-          <Text style={styles.optionText}>Métodos de Pagamento</Text>
+          <FontAwesome name="credit-card" size={24} color={colors.inactiveTintColor} />
+          <Text style={[styles.optionText, { color: colors.inactiveTintColor }]}>Métodos de Pagamento</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Config')}>
-          <FontAwesome name="cog" size={24} color="#faffd6" />
-          <Text style={styles.optionText}>Configurações</Text>
+          <FontAwesome name="cog" size={24} color={colors.inactiveTintColor} />
+          <Text style={[styles.optionText, { color: colors.inactiveTintColor }]}>Configurações</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.option} onPress={() => navigation.navigate('Ajuda')}>
-          <FontAwesome name="question-circle" size={24} color="#faffd6" />
-          <Text style={styles.optionText}>Ajuda e Feedback</Text>
+          <FontAwesome name="question-circle" size={24} color={colors.inactiveTintColor} />
+          <Text style={[styles.optionText, { color: colors.inactiveTintColor }]}>Ajuda e Feedback</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -134,7 +152,6 @@ export default function Conta({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#091015',
     alignItems: 'center',
     paddingTop: 50,
     justifyContent: 'space-between',
@@ -144,7 +161,6 @@ const styles = StyleSheet.create({
     height: windowWidth * 0.6,
     borderRadius: (windowWidth * 0.6) / 2,
     borderWidth: 2,
-    borderColor: '#4682B4',
     justifyContent: 'center',
     alignItems: 'center',
     overflow: 'hidden',
@@ -159,17 +175,14 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     height: '100%',
-    backgroundColor: '#ccc',
   },
   greetingText: {
-    color: '#faffd6',
     marginTop: -10,
     textAlign: 'center',
     fontSize: 24,
   },
   boldText: {
     fontWeight: 'bold',
-    color: '#faffd6',
   },
   optionsContainer: {
     width: '100%',
@@ -178,14 +191,11 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingVertical: 20,
-    backgroundColor: '#091015',
     borderTopWidth: 1,
-    borderTopColor: '#4682B4',
     width: '100%',
     paddingHorizontal: 20,
   },
   optionText: {
-    color: '#faffd6',
     marginLeft: 10,
     fontSize: 18,
   },

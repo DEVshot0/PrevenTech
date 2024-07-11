@@ -7,26 +7,59 @@ import Veiculos from './components/Veiculos';
 import Home from './components/Home';
 import Conta from './components/Conta';
 import { UserContext } from './contexts/UserContext';
+import { useTheme } from './contexts/ThemeContext';
 
 const Tab = createBottomTabNavigator();
 
+const darkColors = {
+  backgroundColor: '#091015',
+  tabBarBackgroundColor: '#091015',
+  borderColor: '#0f1d29',
+  activeTintColor: 'rgba(70, 130, 180, 0.5)',
+  inactiveTintColor: '#faffd6',
+  placeholderTextColor: '#888',
+  searchBarBackgroundColor: 'transparent',
+  searchInputBackgroundColor: '#0f1d29',
+  searchInputTextColor: '#fff',
+  focusedBackgroundColor: 'rgba(70, 130, 180, 0.3)',
+};
+
+const lightColors = {
+  backgroundColor: '#fdfff2',
+  tabBarBackgroundColor: '#fdfff2',
+  borderColor: '#0f1d29',
+  activeTintColor: 'rgba(70, 130, 180, 0.5)',
+  inactiveTintColor: '#091015',
+  placeholderTextColor: '#888',
+  searchBarBackgroundColor: 'transparent',
+  searchInputBackgroundColor: '#c2c2c2',
+  searchInputTextColor: '#091015',
+  focusedBackgroundColor: 'rgba(70, 130, 180, 0.3)',
+};
+
 const CustomTabBarButton = ({ children, onPress, accessibilityState }) => {
   const focused = accessibilityState.selected;
+  const { isDarkMode } = useTheme();
+  const colors = isDarkMode ? darkColors : lightColors;
+
   return (
     <TouchableOpacity style={styles.tabButton} onPress={onPress}>
-      {focused && <View style={styles.focusedBackground} />}
+      {focused && <View style={[styles.focusedBackground, { backgroundColor: colors.focusedBackgroundColor }]} />}
       <View style={styles.innerContainer}>{children}</View>
     </TouchableOpacity>
   );
 };
 
 const SearchBar = () => {
+  const { isDarkMode } = useTheme();
+  const colors = isDarkMode ? darkColors : lightColors;
+
   return (
-    <View style={styles.searchBarContainer}>
+    <View style={[styles.searchBarContainer, { backgroundColor: colors.searchBarBackgroundColor }]}>
       <TextInput
-        style={styles.searchInput}
+        style={[styles.searchInput, { backgroundColor: colors.searchInputBackgroundColor, color: colors.searchInputTextColor }]}
         placeholder="Pesquisar"
-        placeholderTextColor="#888"
+        placeholderTextColor={colors.placeholderTextColor}
       />
     </View>
   );
@@ -34,10 +67,12 @@ const SearchBar = () => {
 
 function MainTabs({ route }) {
   const { user } = useContext(UserContext);
+  const { isDarkMode } = useTheme();
+  const colors = isDarkMode ? darkColors : lightColors;
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="light-content" backgroundColor="#091015" />
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colors.backgroundColor }]}>
+            <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={isDarkMode ? '#000' : colors.backgroundColor} />
       <View style={styles.container}>
         <SearchBar />
         <Tab.Navigator
@@ -45,14 +80,14 @@ function MainTabs({ route }) {
           screenOptions={({ route }) => ({
             headerShown: false,
             tabBarStyle: {
-              backgroundColor: '#091015',
+              backgroundColor: colors.tabBarBackgroundColor,
               borderTopWidth: 0.8,
-              borderTopColor: '#0f1d29',
+              borderTopColor: colors.borderColor,
               height: 60,
               paddingVertical: 5,
             },
-            tabBarActiveTintColor: 'rgba(70, 130, 180, 0.5)',
-            tabBarInactiveTintColor: '#faffd6',
+            tabBarActiveTintColor: colors.activeTintColor,
+            tabBarInactiveTintColor: colors.inactiveTintColor,
             tabBarLabelStyle: {
               fontSize: 12,
               marginBottom: 5,
@@ -83,7 +118,6 @@ function MainTabs({ route }) {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#091015',
   },
   container: {
     flex: 1,
@@ -97,7 +131,6 @@ const styles = StyleSheet.create({
   },
   focusedBackground: {
     position: 'absolute',
-    backgroundColor: 'rgba(70, 130, 180, 0.3)',
     borderRadius: 15,
     height: 50,
     width: 80,
@@ -106,20 +139,15 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   searchBarContainer: {
-    backgroundColor: 'transparent',
-    //marginTop: 20,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderBottomWidth: 0.8,
-    borderBottomColor: '#0f1d29',
     zIndex: 1000,
   },
   searchInput: {
-    backgroundColor: '#0f1d29',
     paddingHorizontal: 10,
     paddingVertical: 8,
     borderRadius: 50,
-    color: '#fff',
   },
 });
 

@@ -2,8 +2,27 @@ import { StatusBar } from 'expo-status-bar';
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, Dimensions, ScrollView } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
+import { useTheme } from '../contexts/ThemeContext';
 
 const { width: windowWidth } = Dimensions.get('window');
+
+const darkColors = {
+  backgroundColor: '#091015',
+  primaryColor: '#4682B4',
+  textColor: '#faffd6',
+  inputBackground: '#1e2a35',
+  placeholderColor: '#ccc',
+  selectedBorderColor: '#faffd6',
+};
+
+const lightColors = {
+  backgroundColor: '#fdfff2',
+  primaryColor: '#4682B4',
+  textColor: '#091015',
+  inputBackground: '#c2c2c2',
+  placeholderColor: '#091015',
+  selectedBorderColor: '#faffd6',
+};
 
 export default function Metodos({ navigation }) {
   const [selectedMethod, setSelectedMethod] = useState(null);
@@ -15,63 +34,66 @@ export default function Metodos({ navigation }) {
   const [boletoEmail, setBoletoEmail] = useState('');
   const [pixKey, setPixKey] = useState('');
 
+  const { isDarkMode } = useTheme();
+  const colors = isDarkMode ? darkColors : lightColors;
+
   const renderMethodForm = () => {
     switch (selectedMethod) {
       case 'creditCard':
         return (
           <View style={styles.formContainer}>
-            <Text style={styles.label}>Tipo do Cartão</Text>
+            <Text style={[styles.label, { color: colors.textColor }]}>Tipo do Cartão</Text>
             <View style={styles.cardTypeContainer}>
               <TouchableOpacity
-                style={[styles.cardTypeButton, cardType === 'visa' && styles.selectedCardType]}
+                style={[styles.cardTypeButton, cardType === 'visa' && { borderColor: colors.selectedBorderColor, borderWidth: 2 }]}
                 onPress={() => setCardType('visa')}
               >
-                <FontAwesome name="cc-visa" size={24} color="#faffd6" />
-                <Text style={styles.cardTypeText}>Visa</Text>
+                <FontAwesome name="cc-visa" size={24} color={colors.textColor} />
+                <Text style={[styles.cardTypeText, { color: colors.textColor }]}>Visa</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.cardTypeButton, cardType === 'mastercard' && styles.selectedCardType]}
+                style={[styles.cardTypeButton, cardType === 'mastercard' && { borderColor: colors.selectedBorderColor, borderWidth: 2 }]}
                 onPress={() => setCardType('mastercard')}
               >
-                <FontAwesome name="cc-mastercard" size={24} color="#faffd6" />
-                <Text style={styles.cardTypeText}>MasterCard</Text>
+                <FontAwesome name="cc-mastercard" size={24} color={colors.textColor} />
+                <Text style={[styles.cardTypeText, { color: colors.textColor }]}>MasterCard</Text>
               </TouchableOpacity>
               <TouchableOpacity
-                style={[styles.cardTypeButton, cardType === 'amex' && styles.selectedCardType]}
+                style={[styles.cardTypeButton, cardType === 'amex' && { borderColor: colors.selectedBorderColor, borderWidth: 2 }]}
                 onPress={() => setCardType('amex')}
               >
-                <FontAwesome name="cc-amex" size={24} color="#faffd6" />
-                <Text style={styles.cardTypeText}>Amex</Text>
+                <FontAwesome name="cc-amex" size={24} color={colors.textColor} />
+                <Text style={[styles.cardTypeText, { color: colors.textColor }]}>Amex</Text>
               </TouchableOpacity>
             </View>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
               placeholder="Número do Cartão"
-              placeholderTextColor="#ccc"
+              placeholderTextColor={colors.placeholderColor}
               value={cardNumber}
               onChangeText={setCardNumber}
               keyboardType="numeric"
             />
             <TextInput
-              style={styles.input}
+              style={[styles.input, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
               placeholder="Nome no Cartão"
-              placeholderTextColor="#ccc"
+              placeholderTextColor={colors.placeholderColor}
               value={cardName}
               onChangeText={setCardName}
             />
             <View style={styles.row}>
               <TextInput
-                style={[styles.input, styles.halfInput]}
+                style={[styles.input, styles.halfInput, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
                 placeholder="Validade (MM/AA)"
-                placeholderTextColor="#ccc"
+                placeholderTextColor={colors.placeholderColor}
                 value={expiryDate}
                 onChangeText={setExpiryDate}
                 keyboardType="numeric"
               />
               <TextInput
-                style={[styles.input, styles.halfInput]}
+                style={[styles.input, styles.halfInput, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
                 placeholder="CVV"
-                placeholderTextColor="#ccc"
+                placeholderTextColor={colors.placeholderColor}
                 value={cvv}
                 onChangeText={setCvv}
                 keyboardType="numeric"
@@ -84,9 +106,9 @@ export default function Metodos({ navigation }) {
         return (
           <View style={styles.formContainer}>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
               placeholder="Email para Envio do Boleto"
-              placeholderTextColor="#ccc"
+              placeholderTextColor={colors.placeholderColor}
               value={boletoEmail}
               onChangeText={setBoletoEmail}
               keyboardType="email-address"
@@ -97,9 +119,9 @@ export default function Metodos({ navigation }) {
         return (
           <View style={styles.formContainer}>
             <TextInput
-              style={styles.input}
+              style={[styles.input, { backgroundColor: colors.inputBackground, color: colors.textColor }]}
               placeholder="Chave Pix (Email, CPF, ou Telefone)"
-              placeholderTextColor="#ccc"
+              placeholderTextColor={colors.placeholderColor}
               value={pixKey}
               onChangeText={setPixKey}
             />
@@ -111,38 +133,37 @@ export default function Metodos({ navigation }) {
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <FontAwesome name="arrow-left" size={24} color="#faffd6" />
+          <FontAwesome name="arrow-left" size={24} color={colors.textColor} />
         </TouchableOpacity>
-        <Text style={styles.title}>Métodos de Pagamento</Text>
+        <Text style={[styles.title, { color: colors.textColor }]}>Métodos de Pagamento</Text>
       </View>
       <ScrollView contentContainerStyle={styles.methodsContainer}>
         <TouchableOpacity
-          style={[styles.method, selectedMethod === 'creditCard' && styles.selectedMethod]}
+          style={[styles.method, selectedMethod === 'creditCard' && { borderColor: colors.selectedBorderColor, borderWidth: 2 }]}
           onPress={() => setSelectedMethod('creditCard')}
         >
-          <FontAwesome name="credit-card" size={24} color="#faffd6" />
-          <Text style={styles.methodText}>Cartão de Crédito</Text>
+          <FontAwesome name="credit-card" size={24} color={colors.textColor} />
+          <Text style={[styles.methodText, { color: colors.textColor }]}>Cartão de Crédito</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.method, selectedMethod === 'boleto' && styles.selectedMethod]}
+          style={[styles.method, selectedMethod === 'boleto' && { borderColor: colors.selectedBorderColor, borderWidth: 2 }]}
           onPress={() => setSelectedMethod('boleto')}
         >
-          <FontAwesome name="barcode" size={24} color="#faffd6" />
-          <Text style={styles.methodText}>Boleto</Text>
+          <FontAwesome name="barcode" size={24} color={colors.textColor} />
+          <Text style={[styles.methodText, { color: colors.textColor }]}>Boleto</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          style={[styles.method, selectedMethod === 'pix' && styles.selectedMethod]}
+          style={[styles.method, selectedMethod === 'pix' && { borderColor: colors.selectedBorderColor, borderWidth: 2 }]}
           onPress={() => setSelectedMethod('pix')}
         >
-          <FontAwesome name="money" size={24} color="#faffd6" />
-          <Text style={styles.methodText}>Pix</Text>
+          <FontAwesome name="money" size={24} color={colors.textColor} />
+          <Text style={[styles.methodText, { color: colors.textColor }]}>Pix</Text>
         </TouchableOpacity>
       </ScrollView>
       {renderMethodForm()}
-      <StatusBar style="light" />
     </View>
   );
 }
@@ -150,7 +171,6 @@ export default function Metodos({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#091015',
     paddingTop: 50,
     alignItems: 'center',
   },
@@ -162,7 +182,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   title: {
-    color: '#faffd6',
     fontSize: 24,
     fontWeight: 'bold',
     marginLeft: 10,
@@ -175,18 +194,13 @@ const styles = StyleSheet.create({
   method: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#4682B4',
+    backgroundColor: darkColors.primaryColor, // Replace this with colors.primaryColor
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,
     width: windowWidth * 0.9,
   },
-  selectedMethod: {
-    borderWidth: 2,
-    borderColor: '#faffd6',
-  },
   methodText: {
-    color: '#faffd6',
     fontSize: 18,
     marginLeft: 10,
   },
@@ -196,8 +210,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
   input: {
-    backgroundColor: '#1e2a35',
-    color: '#faffd6',
     padding: 10,
     borderRadius: 5,
     fontSize: 16,
@@ -211,7 +223,6 @@ const styles = StyleSheet.create({
     width: '48%',
   },
   label: {
-    color: '#faffd6',
     fontSize: 16,
     marginBottom: 5,
   },
@@ -224,15 +235,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     padding: 10,
-    backgroundColor: '#4682B4',
     borderRadius: 5,
   },
   selectedCardType: {
     borderWidth: 2,
-    borderColor: '#faffd6',
   },
   cardTypeText: {
-    color: '#faffd6',
     marginLeft: 5,
   },
 });
