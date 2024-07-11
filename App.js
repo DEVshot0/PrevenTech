@@ -16,19 +16,19 @@ const Stack = createStackNavigator();
 function App() {
   return (
     <UserProvider>
-    <PaperProvider>
-      <NavigationContainer>
-        <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Login" component={Login} />
-          <Stack.Screen name="Main" component={MainTabs} />
-          <Stack.Screen name="Conta" component={Conta} />
-          <Stack.Screen name="Perfil" component={Perfil} />
-          <Stack.Screen name="Metodos" component={Metodos} />
-          <Stack.Screen name="Config" component={Config} />
-          <Stack.Screen name="Ajuda" component={Ajuda} />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </PaperProvider>
+      <PaperProvider>
+        <NavigationContainer>
+          <Stack.Navigator initialRouteName="Login" screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Main" component={MainTabs} />
+            <Stack.Screen name="Conta" component={Conta} />
+            <Stack.Screen name="Perfil" component={Perfil} />
+            <Stack.Screen name="Metodos" component={Metodos} />
+            <Stack.Screen name="Config" component={Config} />
+            <Stack.Screen name="Ajuda" component={Ajuda} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </PaperProvider>
     </UserProvider>
   );
 }

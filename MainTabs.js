@@ -1,22 +1,19 @@
 import * as React from 'react';
 import { useContext } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { TouchableOpacity, StyleSheet, View, TextInput, SafeAreaView } from 'react-native';
+import { TouchableOpacity, StyleSheet, View, TextInput, SafeAreaView, StatusBar } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Veiculos from './components/Veiculos';
 import Home from './components/Home';
 import Conta from './components/Conta';
-import { UserContext } from './contexts/UserContext';  // Correct import path
+import { UserContext } from './contexts/UserContext';
 
 const Tab = createBottomTabNavigator();
 
 const CustomTabBarButton = ({ children, onPress, accessibilityState }) => {
   const focused = accessibilityState.selected;
   return (
-    <TouchableOpacity
-      style={styles.tabButton}
-      onPress={onPress}
-    >
+    <TouchableOpacity style={styles.tabButton} onPress={onPress}>
       {focused && <View style={styles.focusedBackground} />}
       <View style={styles.innerContainer}>{children}</View>
     </TouchableOpacity>
@@ -40,6 +37,7 @@ function MainTabs({ route }) {
 
   return (
     <SafeAreaView style={styles.safeArea}>
+      <StatusBar barStyle="light-content" backgroundColor="#091015" />
       <View style={styles.container}>
         <SearchBar />
         <Tab.Navigator
@@ -109,7 +107,7 @@ const styles = StyleSheet.create({
   },
   searchBarContainer: {
     backgroundColor: 'transparent',
-    marginTop: 20,
+    //marginTop: 20,
     paddingHorizontal: 20,
     paddingVertical: 10,
     borderBottomWidth: 0.8,
