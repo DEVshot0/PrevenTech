@@ -3,8 +3,8 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Dimensions, Scroll
 import { FontAwesome } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInputMask } from 'react-native-masked-text';
-import { UserContext } from '../contexts/UserContext';  // Corrigir o caminho de importação
-import { useTheme } from '../contexts/ThemeContext'; // Import useTheme
+import { UserContext } from '../contexts/UserContext';  
+import { useTheme } from '../contexts/ThemeContext'; 
 
 const { width: windowWidth } = Dimensions.get('window');
 
@@ -23,7 +23,7 @@ const lightColors = {
 };
 
 export default function Perfil({ navigation }) {
-  const { user, setUser } = useContext(UserContext);  // Usar corretamente o contexto
+  const { user, setUser } = useContext(UserContext); 
   const [nome, setNome] = useState(user.nome);
   const [sobrenome, setSobrenome] = useState(user.sobrenome);
   const [numero, setNumero] = useState(user.numero);
@@ -95,9 +95,9 @@ export default function Perfil({ navigation }) {
     };
     try {
       await AsyncStorage.setItem('userInfo', JSON.stringify(userInfo));
-      setUser({ ...user, nome }); // Atualiza o estado do contexto
+      setUser({ ...user, nome }); 
       alert('Informações salvas com sucesso!');
-      navigation.navigate('Home', { nome }); // Navega para 'Home'
+      navigation.navigate('Home', { nome }); 
     } catch (error) {
       console.log('Erro ao salvar as informações:', error);
     }
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   container: {
     flexGrow: 1,
     alignItems: 'center',
-    paddingTop: 50,
+    paddingTop: 20,
     paddingBottom: 20,
   },
   header: {
@@ -232,7 +232,9 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginLeft: 10,
+    textAlign: 'center',
+    marginRight: 18,
+    flex: 1,
   },
   inputContainer: {
     width: windowWidth * 0.9,

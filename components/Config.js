@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import { useTheme } from '../contexts/ThemeContext'; // Supondo que o contexto esteja em ThemeContext.js
+import { useTheme } from '../contexts/ThemeContext'; 
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 
 export default function Config({ navigation }) {
@@ -15,14 +15,13 @@ export default function Config({ navigation }) {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <FontAwesome name="arrow-left" size={24} color={colors.textColor} />
         </TouchableOpacity>
-        <Text style={[styles.title, { color: colors.textColor }]}>Config</Text>
+        <Text style={[styles.title, { color: colors.textColor }]}>Configurações</Text>
       </View>
-      <Text style={{ color: colors.textColor }}>Configurações</Text>
       <TouchableOpacity 
         style={[styles.toggleButton, { backgroundColor: colors.buttonBackgroundColor }]}
         onPress={toggleTheme}
       >
-        <Text style={{ color: colors.textColor }}>{isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}</Text>
+        <Text style={{ color: colors.textColor }}>{isDarkMode ? 'Trocar para modo claro' : 'Trocar para modo escuro'}</Text>
       </TouchableOpacity>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} backgroundColor={isDarkMode ? '#000' : colors.backgroundColor} />
     </View>
@@ -49,18 +48,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'flex-start',
+    paddingTop: 20, 
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
     width: '100%',
-    padding: 10,
+    paddingHorizontal: 20,
+    marginBottom: 20,
+    justifyContent: 'center',
   },
   title: {
-    fontSize: 20,
+    fontSize: 24,
     fontWeight: 'bold',
+    textAlign: 'center',
+    marginRight: 18,
+    flex: 1,
   },
   toggleButton: {
     alignSelf: 'center',

@@ -135,7 +135,7 @@ export default function Metodos({ navigation }) {
   return (
     <View style={[styles.container, { backgroundColor: colors.backgroundColor }]}>
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
           <FontAwesome name="arrow-left" size={24} color={colors.textColor} />
         </TouchableOpacity>
         <Text style={[styles.title, { color: colors.textColor }]}>Métodos de Pagamento</Text>
@@ -171,7 +171,7 @@ export default function Metodos({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 50,
+    paddingTop: 20,
     alignItems: 'center',
   },
   header: {
@@ -180,11 +180,19 @@ const styles = StyleSheet.create({
     width: '100%',
     paddingHorizontal: 20,
     marginBottom: 20,
+    justifyContent: 'center',
+  },
+  backButton: {
+    position: 'absolute',
+    left: 20,
+    zIndex: 1,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    marginLeft: 10,
+    textAlign: 'center',
+    marginRight: -18,
+    flex: 1,
   },
   methodsContainer: {
     width: '100%',
@@ -194,7 +202,7 @@ const styles = StyleSheet.create({
   method: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: darkColors.primaryColor, // Replace this with colors.primaryColor
+    backgroundColor: darkColors.primaryColor,
     padding: 15,
     borderRadius: 10,
     marginBottom: 10,

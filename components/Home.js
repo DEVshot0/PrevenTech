@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Dimensions, ScrollView, Alert } from 'react-native';
-import { useTheme } from '../contexts/ThemeContext'; // Supondo que o contexto esteja em ThemeContext.js
+import { useTheme } from '../contexts/ThemeContext'; 
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const windowHeight = Dimensions.get('window').height;
@@ -63,10 +63,10 @@ const styles = StyleSheet.create({
   },
   button: {
     width: windowWidth * 0.9,
-    height: windowWidth * 0.24, // Increased height to accommodate all text elements
+    height: windowWidth * 0.24, 
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between', // Add space between the icon and the text
+    justifyContent: 'space-between', 
     borderWidth: 0.8,
     borderRadius: 5,
     marginVertical: 10,
@@ -82,16 +82,16 @@ const styles = StyleSheet.create({
   buttonText: {
     fontWeight: 'bold',
     fontSize: 20,
-    flex: 0.4, // 40% of the button height
+    flex: 0.4, 
   },
   normalText: {
     fontSize: 16,
-    flex: 0.3, // 30% of the button height
+    flex: 0.3, 
   },
   boldText: {
     fontWeight: 'bold',
     fontSize: 16,
-    flex: 0.3, // 30% of the button height
+    flex: 0.3, 
   },
   rightIcon: {
     marginLeft: 20,

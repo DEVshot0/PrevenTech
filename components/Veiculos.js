@@ -76,14 +76,14 @@ const styles = StyleSheet.create({
     fontSize: 16,
     padding: 10,
     borderBottomWidth: 0.7,
-    alignItems: 'center', // Align items to center to position text between the icons
-    flexDirection: 'row', // Add row direction to position icons and text in a row
-    justifyContent: 'space-between', // Space between elements to place rightIcon at the end
+    alignItems: 'center', 
+    flexDirection: 'row', 
+    justifyContent: 'space-between', 
   },
   scrollItemText: {
     fontSize: 16.3,
-    flex: 1, // Add flex to occupy space between the icons
-    textAlign: 'left', // Align text to the left
+    flex: 1,
+    textAlign: 'left', 
   },
   rightIcon: {
     marginLeft: 10,
