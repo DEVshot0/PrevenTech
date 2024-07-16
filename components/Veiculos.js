@@ -60,6 +60,18 @@ const Veiculos = ({ navigation }) => {
           </TouchableOpacity>
         ))}
       </ScrollView>
+      <TouchableOpacity
+        style={styles.floatingButtonLeft}
+        onPress={() => navigation.navigate('Adicionar')}
+      >
+        <Icon name="plus" size={30} color="#fff" />
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.floatingButtonRight}
+        onPress={() => navigation.navigate('Filtrar')}
+      >
+        <Icon name="filter" size={30} color="#fff" />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -87,6 +99,28 @@ const styles = StyleSheet.create({
   },
   rightIcon: {
     marginLeft: 10,
+  },
+  floatingButtonLeft: {
+    position: 'absolute',
+    bottom: 20,
+    left: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#4682B4',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  floatingButtonRight: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#4682B4',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 

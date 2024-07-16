@@ -1,8 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Alert, Dimensions } from 'react-native';
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Dimensions, ScrollView, Alert } from 'react-native';
-import { useTheme } from '../contexts/ThemeContext'; 
 import Icon from 'react-native-vector-icons/FontAwesome';
+import { useTheme } from '../contexts/ThemeContext';
 
 const windowHeight = Dimensions.get('window').height;
 const windowWidth = Dimensions.get('window').width;
@@ -23,7 +23,7 @@ const lightColors = {
   iconColor: '#4682B4'
 };
 
-const Home = ({ route }) => {
+const Home = ({ route, navigation }) => {
   const { isDarkMode } = useTheme();
   const colors = isDarkMode ? darkColors : lightColors;
 
@@ -46,6 +46,12 @@ const Home = ({ route }) => {
           </TouchableOpacity>
         ))}
       </ScrollView>
+      <TouchableOpacity
+        style={styles.floatingButtonRight}
+        onPress={() => navigation.navigate('Filtrar')}
+      >
+        <Icon name="filter" size={30} color="#fff" />
+      </TouchableOpacity>
     </SafeAreaView>
   );
 };
@@ -95,6 +101,17 @@ const styles = StyleSheet.create({
   },
   rightIcon: {
     marginLeft: 20,
+  },
+  floatingButtonRight: {
+    position: 'absolute',
+    bottom: 20,
+    right: 20,
+    width: 60,
+    height: 60,
+    borderRadius: 30,
+    backgroundColor: '#4682B4',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
